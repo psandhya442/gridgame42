@@ -1,0 +1,52 @@
+import random
+import time
+
+def generate_grid(size=3):
+    """Generate a random grid of numbers."""
+    numbers = random.sample(range(1, size*size + 1), size*size)
+    grid = [numbers[i:i+size] for i in range(0, len(numbers), size)]
+    return grid
+
+def display_grid(grid):
+    """Display the grid in a formatted way."""
+    for row in grid:
+        print(" ".join(str(num) for num in row))
+
+def clear_screen():
+    """Clear the terminal screen."""
+    print("\033[H\033[J")  # Works in most terminal environments
+
+def get_user_input(size):
+    """Get user input and convert it to a list."""
+    user_input = []
+    print("Enter the grid row by row (numbers separated by spaces):")
+    for _ in range(size):
+        row = list(map(int, input().split()))
+        user_input.append(row)
+    return user_input
+
+def flashing_grid_memory_game():
+    size = 3  # Starting grid size
+    print("Welcome to the Flashing Grid Memory Game!")
+
+    while True:
+        grid = generate_grid(size)
+        print("\nMemorize this grid:")
+        display_grid(grid)
+
+        time.sleep(4)  # Show grid for a few seconds
+        clear_screen()
+
+        user_guess = get_user_input(size)
+
+        if user_guess == grid:
+            print("Correct! Moving to the next level.\n")
+            size += 1  # Increase grid size for difficulty
+        else:
+            print("Game Over! You made a mistake.")
+            print("The correct grid was:")
+            display_grid(grid)
+            break
+
+if __name__ == "__main__":
+    flashing_grid_memory_game()
